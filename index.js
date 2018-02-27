@@ -1,11 +1,6 @@
 var express = require('express')
+var body = require('body-parser')
 var app  = express()
-
-//Response data
-
-var gameStart = {
-game_id: 1,
-}
 
 var mySnake = {
   color: '#DFFF00',
@@ -16,22 +11,20 @@ var mySnake = {
   tail_type: 'pixel'
 }
 
-var moveData = {
-  move: 'left',
-  taunt: 'The sleeper has awakened!'
-}
+var moves = ['up', 'down', 'left', 'right']
 
 // Handle GET
-app.get('/', (req, res) => {
-  console.log("response logged")
-})
+app.get('/', (req, res) => res.json(mySnake))
 
 // Handle POST request to '/start'
 app.post('/start', (req, res) => {
-  res.json(data)
+  console.log(req)
+  res.json(mySnake)
 })
 
 // Handle POST request to '/move'
 app.post('/move', (req, res) => {
-  res.json({'move': 'up'})
+  res.json({'move': moves[Math.floor(Math.random() * 4)]})
 })
+
+app.listen(4000, () => console.log('Snake app listening on port 4000...'))
