@@ -1,1 +1,1 @@
-This is a battle snake made by a couple of Camosun College ICS first-year students, for the beginner's competition in 2018. Based on tutorials by @jembijoux andstarter code provided by sendwithus. Written in node.js.
+This is a battle snake made by a couple of Camosun College ICS first-year students, for the beginner's competition in 2018. Based on tutorials by @jembijoux and starter code provided by sendwithus. Written in node.js.
