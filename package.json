@@ -20,4 +20,8 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2"
   }
+
+  "engines": {
+    "node": "v8.9.4"
+  }
 }
