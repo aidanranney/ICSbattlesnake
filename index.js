@@ -27,4 +27,9 @@ app.post('/move', (req, res) => {
   res.json({'move': moves[Math.floor(Math.random() * 4)]})
 })
 
+//Handle POST request to ''/end'
+app.post('/end', (req, res) => {
+  res.json()
+})
+
 app.listen(4000, () => console.log('Snake app listening on port 4000...'))
