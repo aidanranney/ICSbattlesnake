@@ -1,6 +1,8 @@
 var express = require('express')
-var body = require('body-parser')
+var bodyParser = require('body-parser')
 var app  = express()
+
+app.use(bodyParser.json())
 
 var mySnake = {
   color: '#DFFF00',
@@ -21,7 +23,7 @@ app.post('/start', (req, res) => {
   console.log(req)
   res.json(mySnake)
 })
-
+,
 // Handle POST request to '/move'
 app.post('/move', (req, res) => {
   res.json({'move': moves[Math.floor(Math.random() * 4)]})
@@ -32,5 +34,8 @@ app.post('/end', (req, res) => {
   res.json()
 })
 
-var PORT = process.env.PORT
-app.listen(4000, () => console.log('Snake app listening on port ${PORT}...'))
+app.set('port', (process.env.PORT || 9001))
+
+app.listen(app.get('port'), () => {
+  console.log('Server listening on port %s', app.get('port'))
+})
