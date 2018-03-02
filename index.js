@@ -6,7 +6,7 @@ var mySnake = {
   color: '#DFFF00',
   name: 'Shai Halud',
   head_url: 'http://cf.geekdo-images.com/images/pic1732684_t.png', // dune sandworm
-  taunt: "Let the spice flow",
+  taunt: "yo let that spice flow",
   head_type: 'sand-worm',
   tail_type: 'pixel'
 }
@@ -32,4 +32,5 @@ app.post('/end', (req, res) => {
   res.json()
 })
 
-app.listen(4000, () => console.log('Snake app listening on port 4000...'))
+var PORT = process.env.PORT
+app.listen(4000, () => console.log('Snake app listening on port ${PORT}...'))
