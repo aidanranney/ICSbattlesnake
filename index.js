@@ -63,19 +63,21 @@ app.post('/move', (req, res) => {
         takenSpaces.push(enemySnake.body.data[j])
       }
     }
-    /*//Get the locations of our snake
+    //Get the locations of our snake
     for (let i=0; i<mySnake.body.data.length; i++) {
       takenSpaces.push(mySnake.body.data[i])
-    }*/
+    }
     //Get the edgespace of the board
+    //top
     for (let i=0; i<theGame.width; i++){
       edgeSpace = {
-        y: 0,
+        y: -1,
         x: i,
         object: 'point'
       }
       takenSpaces.push(edgeSpace)
     }
+    //bottom
     for (let i=0; i<theGame.width; i++){
       edgeSpace = {
         y: theGame.height,
@@ -83,7 +85,9 @@ app.post('/move', (req, res) => {
         object: 'point'
       }
       takenSpaces.push(edgeSpace)
-    }  for (let i=0; i<theGame.height; i++){
+    }
+    //left
+    for (let i=0; i<theGame.height; i++){
         edgeSpace = {
           y: i,
           x: -1,
@@ -109,7 +113,8 @@ app.post('/move', (req, res) => {
     console.log(up)
     console.log(takenSpaces[0])
         for (let i = 0; i < takenSpaces.length; i++) {
-            if (up == takenSpaces[i]){
+            if (JSON.stringify(up) == JSON.stringify(takenSpaces[i])){
+                console.log("this returned false")
                 return false
             }
         }
@@ -117,7 +122,7 @@ app.post('/move', (req, res) => {
     }
   function moveDown() {
          for (let i = 0; i < takenSpaces.length; i++) {
-            if (down == takenSpaces[i]){
+            if (JSON.stringify(down) == JSON.stringify(takenSpaces[i])){
                 return false
             }
           }
@@ -128,18 +133,19 @@ app.post('/move', (req, res) => {
             if (JSON.stringify(left) == JSON.stringify(takenSpaces[i])){
                 return false
             }
-            return true
         }
+          return true
     }
   function moveRight() {
          for (let i = 0; i < takenSpaces.length; i++) {
             if (JSON.stringify(right) == JSON.stringify(takenSpaces[i])){
                 return false
             }
-            return true
         }
+        return true
     }
   function movement(){
+    while (mySnake.health>30) {
       if (moveUp()){
            return 'up'
        } else if(moveDown()){
@@ -150,22 +156,32 @@ app.post('/move', (req, res) => {
           return 'right'
       }
     }
+    if (snakeHead.x - food.x == 0) {
+         if (snakeHead.y - food.y > 0) {
+           if(moveUp()){
+             return 'up'
+           }
+         } else {
+           if (moveDown()){
+             return 'down'
+           }
+         }
+    } else {
+        if (snakeHead.x - food.x > 0) {
+             if (moveLeft()){
+               return 'left'
+             }
+          } else {
+            if (moveRight()){
+              return 'right'
+            }
+          }
+        }
+  }
+
+
 
   var move = movement()
-
-  /*if (snakeHead.x - food.x == 0) {
-       if (snakeHead.y - food.y > 0) {
-         move =  'up'
-       } else {
-         move =  'down'
-       }
-  } else {
-      if (snakeHead.x - food.x > 0) {
-           move =  'left'
-        } else {
-          move =  'right'
-        }
-      }*/
 
   res.json({
     'move': move,
