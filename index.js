@@ -20,20 +20,30 @@ app.post('/start', (req, res) => {
   var theBoard = req
 })
 
-// Handle POST request to '/move'
-app.post('/move', (req, res) => {
+var up = {
+  "object": "point",
+  "x": snakeHead.x,
+  "y": snakeHead.y-1
+}
+var down = {
+  "object": "point",
+  "x": snakeHead.x,
+  "y": snakeHead.y+1
+}
+var left = {
+  "object": "point",
+  "x": snakeHead.x-1,
+  "y": snakeHead.y
+}
+var right = {
+  "object": "point",
+  "x": snakeHead.x+1,
+  "y": snakeHead.y
+}
 
-  var theGame = req.body
-  var mySnake = theGame.you
-  var otherSnakes[] = theGame.snakes.data
-  var snakeHead = mySnake.body.data[0]
-  var snakeTail = mySnake.body.data[mySnake.body.data.length
-  var food = theGame.food.data[0]
-  var move
+function invalidSpaces() {
 
-  function invalidSpaces(){
-
-  var invalidSpaces[]
+  var takenSpaces = []
   //Get the locations of all the enemy snakes
   for (let i=0; i<otherSnakes.length; i++){
     var enemySnake = otherSnakes[i]
@@ -76,10 +86,68 @@ app.post('/move', (req, res) => {
         }
         takenSpaces.push(edgeSpace)
       }
-    return invalidSpaces[]
+
+    return takenSpaces
   }
 
   console.log(invalidSpaces())
+
+function moveUp() {
+    for (let i = 0; i < invalidSpaces().length; i++) {
+        if (JSON.stringify(up) == JSON.stringify(takenSpaces[i])){
+            return false
+        }
+        return true
+    }
+}
+
+function moveDown() {
+     for (let i = 0; i < invalidSpaces().length; i++) {
+        if (JSON.stringify(down) == JSON.stringify(takenSpaces[i])){
+            return false
+        }
+        return true
+    }
+
+function moveLeft() {
+     for (let i = 0; i < invalidSpaces().length; i++) {
+        if (JSON.stringify(left) == JSON.stringify(takenSpaces[i])){
+            return false
+        }
+        return true
+    }
+}
+
+function moveRight() {
+     for (let i = 0; i < invalidSpaces().length; i++) {
+        if (JSON.stringify(right) == JSON.stringify(takenSpaces[i])){
+            return false
+        }
+        return true
+    }
+}
+
+function movement(){
+  if (moveUp()){
+       return 'up'
+   } else if(moveDown()){
+      return 'down'
+  } else if (moveLeft()) {
+      return 'left'
+  } else if (moveRight()) {
+      return 'right'
+  }
+}
+
+// Handle POST request to '/move'
+app.post('/move', (req, res) => {
+
+  var theGame = req.body
+  var mySnake = theGame.you
+  var otherSnakes = theGame.snakes.data
+  var snakeHead = mySnake.body.data[0]
+  var food = theGame.food.data[0]
+  var move = movement()
 
   if (snakeHead.x - food.x == 0) {
        if (snakeHead.y - food.y > 0) {
