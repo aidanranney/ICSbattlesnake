@@ -13,13 +13,11 @@ var mySnake = {
   tail_type: 'pixel'
 }
 
-// Handle GET
-app.get('/', (req, res) => res('<img src="https://monsterlegacy.files.wordpress.com/2014/04/sandwormcropped.jpg"></img>'))
-
 // Handle POST request to '/start'
 app.post('/start', (req, res) => {
   console.log(req.body)
   res.json(mySnake)
+  var theBoard = req
 })
 
 // Handle POST request to '/move'
@@ -27,10 +25,61 @@ app.post('/move', (req, res) => {
 
   var theGame = req.body
   var mySnake = theGame.you
+  var otherSnakes[] = theGame.snakes.data
   var snakeHead = mySnake.body.data[0]
+  var snakeTail = mySnake.body.data[mySnake.body.data.length
   var food = theGame.food.data[0]
-
   var move
+
+  function invalidSpaces(){
+
+  var invalidSpaces[]
+  //Get the locations of all the enemy snakes
+  for (let i=0; i<otherSnakes.length; i++){
+    var enemySnake = otherSnakes[i]
+    for (let j=0; j<enemySnake.body.data.length; j++) {
+      takenSpaces.push(enemySnake.body.data[j])
+    }
+  }
+  //Get the locations of our snake
+  for (let i=0; i<mySnake.body.data.length; i++) {
+    takenSpaces.push(mySnake.body.data[i])
+  }
+  //Get the edgespace of the board
+  for (let i=0; i<theGame.width; i++){
+    edgeSpace = {
+      "object": "point",
+      "x": i,
+      "y": -1
+    }
+    takenSpaces.push(edgeSpace)
+  }
+  for (let i=0; i<theGame.width; i++){
+    edgeSpace = {
+      "object": "point",
+      "x": i,
+      "y": theGame.height
+    }
+    takenSpaces.push(edgeSpace)
+  }  for (let i=0; i<theGame.height; i++){
+      edgeSpace = {
+        "object": "point",
+        "x": -1,
+        "y": i
+      }
+      takenSpaces.push(edgeSpace)
+    }  for (let i=0; i<theGame.height; i++){
+        edgeSpace = {
+          "object": "point",
+          "x": theGame.width,
+          "y": i
+        }
+        takenSpaces.push(edgeSpace)
+      }
+    return invalidSpaces[]
+  }
+
+  console.log(invalidSpaces())
 
   if (snakeHead.x - food.x == 0) {
        if (snakeHead.y - food.y > 0) {
@@ -54,10 +103,10 @@ app.post('/move', (req, res) => {
 
 //Handle POST request to ''/end'
 app.post('/end', (req, res) => {
-  res.json()
+  console.log(req)
 })
 
-app.set('port', (process.env.PORT || 9001))
+app.set('port', (process.env.PORT || 9001));
 
 app.listen(app.get('port'), () => {
   console.log('Server listening on port %s', app.get('port'))
