@@ -145,7 +145,7 @@ app.post('/move', (req, res) => {
         return true
     }
   function movement(){
-    while (mySnake.health>30) {
+    while (mySnake.health>(theGame.height+theGame.width)) {
       if (moveUp()){
            return 'up'
        } else if(moveDown()){
