@@ -4,7 +4,7 @@ var app  = express()
 
 app.use(bodyParser.json())
 
-var mySnake = {
+const mySnake = {
   color: '#a87008',
   name: 'Shai Halud',
   head_url: 'http://cf.geekdo-images.com/images/pic1732684_t.png', // dune sandworm
@@ -15,36 +15,35 @@ var mySnake = {
 
 // Handle POST request to '/start'
 app.post('/start', (req, res) => {
-  console.log(req.body)
+  console.log(req.game)
   res.json(mySnake)
-  var theBoard = req
 })
 
 
 // Handle POST request to '/move'
 app.post('/move', (req, res) => {
 
-  var theGame = req.body
-  var mySnake = theGame.you
-  var otherSnakes = theGame.snakes
-  var snakeHead = mySnake.body[0]
-  var food = theGame.food[0]
-  var up = {
+  const theGame = req.board
+  const mySnake = theGame.you
+  const otherSnakes = theGame.snakes
+  const snakeHead = mySnake.body[0]
+  const food = theGame.food
+  let up = {
     y: snakeHead.y-1,
     x: snakeHead.x,
     object: 'point'
   }
-  var down = {
+  let down = {
     y: snakeHead.y+1,
     x: snakeHead.x,
     object: 'point'
   }
-  var left = {
+  let left = {
     y: snakeHead.y,
     x: snakeHead.x-1,
     object: 'point'
   }
-  var right = {
+  let right = {
     y: snakeHead.y,
     x: snakeHead.x+1,
     object: 'point'
@@ -56,7 +55,7 @@ app.post('/move', (req, res) => {
     //Get the locations of all the enemy snakes
     for (let i=0; i<otherSnakes.length; i++){
       var enemySnake = otherSnakes[i]
-      for (let j=0; j<enemySnake.body.data.length; j++) {
+      for (let j=0; j<enemySnake.body.length; j++) {
         takenSpaces.push(enemySnake.body[j])
       }
     }
@@ -103,15 +102,10 @@ app.post('/move', (req, res) => {
       return takenSpaces
     }
 
-  console.log(invalidSpaces())
-
   var takenSpaces = invalidSpaces()
   function moveUp() {
-    console.log(up)
-    console.log(takenSpaces[0])
         for (let i = 0; i < takenSpaces.length; i++) {
             if (JSON.stringify(up) == JSON.stringify(takenSpaces[i])){
-                console.log("this returned false")
                 return false
             }
         }
@@ -177,8 +171,7 @@ app.post('/move', (req, res) => {
   }
 
 
-
-  var move = movement()
+  let move = movement()
 
   res.json({
     'move': move,
