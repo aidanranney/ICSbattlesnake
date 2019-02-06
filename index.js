@@ -21,17 +21,14 @@ app.post('/start', (req, res) => {
 })
 
 
-
-
-
 // Handle POST request to '/move'
 app.post('/move', (req, res) => {
 
   var theGame = req.body
   var mySnake = theGame.you
-  var otherSnakes = theGame.snakes.data
-  var snakeHead = mySnake.body.data[0]
-  var food = theGame.food.data[0]
+  var otherSnakes = theGame.snakes
+  var snakeHead = mySnake.body[0]
+  var food = theGame.food[0]
   var up = {
     y: snakeHead.y-1,
     x: snakeHead.x,
@@ -60,12 +57,12 @@ app.post('/move', (req, res) => {
     for (let i=0; i<otherSnakes.length; i++){
       var enemySnake = otherSnakes[i]
       for (let j=0; j<enemySnake.body.data.length; j++) {
-        takenSpaces.push(enemySnake.body.data[j])
+        takenSpaces.push(enemySnake.body[j])
       }
     }
     //Get the locations of our snake
-    for (let i=0; i<mySnake.body.data.length; i++) {
-      takenSpaces.push(mySnake.body.data[i])
+    for (let i=0; i<mySnake.body.length; i++) {
+      takenSpaces.push(mySnake.body[i])
     }
     //Get the edgespace of the board
     //top
